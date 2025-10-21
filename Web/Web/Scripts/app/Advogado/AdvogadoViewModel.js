@@ -1,10 +1,12 @@
-// Arquivo: Web/Scripts/app/Advogado/AdvogadoViewModel.js
+// Arquivo: Web/Scripts/app/Advogado/AdvogadoViewModel.js (CÓDIGO COMPLETO E CORRIGIDO)
 
 // Usa a nomenclatura correta: Nome do arquivo (AdvogadoViewModel) + função
 var AdvogadoViewModel = (function ($) {
 
     // 1. Função de Carregamento Principal (Regra: nome de arquivo + _AoCarregarComponente())
     var AdvogadoViewModel_AoCarregarComponente = function () {
+        // CORREÇÃO: LIGA A FUNÇÃO DE LIMPEZA AO SUBMIT DO FORMULÁRIO
+        $('form').submit(AdvogadoViewModel_AoSubmeterFormulario);
         AdvogadoViewModel_FormatarCampos();
     };
 
@@ -24,7 +26,30 @@ var AdvogadoViewModel = (function ($) {
         });
     };
 
-    // 3. Função de Confirmação para Exclusão (Regra: nome de arquivo + _Confirmar())
+    // 3. NOVO MÉTODO: Limpeza antes da Submissão (Desmascaramento)
+    var AdvogadoViewModel_AoSubmeterFormulario = function () {
+
+        // Limpar o CEP: remove o hífen e deixa só números
+        var $cep = $('#cep');
+        var cep_valor = $cep.val();
+        if (cep_valor) {
+            // Remove todos os caracteres não numéricos
+            $cep.val(cep_valor.replace(/\D/g, ''));
+        }
+
+        // Limpar o Número: remove qualquer caracter que possa ter entrado, garantindo apenas dígitos
+        var $numero = $('#numero');
+        var numero_valor = $numero.val();
+        if (numero_valor) {
+            $numero.val(numero_valor.replace(/\D/g, ''));
+        }
+
+        // Retorna true para permitir que o formulário continue com o POST.
+        return true;
+    };
+
+
+    // 4. Função de Confirmação para Exclusão (Regra: nome de arquivo + _Confirmar())
     var AdvogadoViewModel_Confirmar = function (id) {
         if (confirm("Tem certeza que deseja excluir este Advogado?")) {
 
@@ -32,24 +57,3 @@ var AdvogadoViewModel = (function ($) {
             $.post('/Advogado/Excluir', { pIntId: id }, function (data) {
                 // Redireciona ou recarrega
                 if (data.redirectUrl) {
-                    window.location.href = data.redirectUrl;
-                } else {
-                    window.location.reload();
-                }
-            }).fail(function () {
-                alert("Erro ao tentar excluir o Advogado.");
-            });
-        }
-    };
-
-    // Retorna as funções públicas para acesso do HTML
-    return {
-        AdvogadoViewModel_AoCarregarComponente: AdvogadoViewModel_AoCarregarComponente,
-        AdvogadoViewModel_FormatarCampos: AdvogadoViewModel_FormatarCampos,
-        AdvogadoViewModel_Confirmar: AdvogadoViewModel_Confirmar
-    };
-})(jQuery);
-
-// Permite o acesso global no HTML (necessário para chamar as funções diretamente)
-var AdvogadoViewModel_AoCarregarComponente = AdvogadoViewModel.AdvogadoViewModel_AoCarregarComponente;
-var AdvogadoViewModel_Confirmar = AdvogadoViewModel.AdvogadoViewModel_Confirmar;

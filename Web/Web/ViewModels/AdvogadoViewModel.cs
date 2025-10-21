@@ -1,24 +1,33 @@
 ﻿using Dominio.Enums;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace Web.ViewModels
 {
     public class AdvogadoViewModel
     {
+        public AdvogadoViewModel()
+        {
+            // Inicializar as listas como vazias para evitar NullReferenceException
+            SenioridadeList = new SelectList(new List<SelectListItem>());
+            EstadoList = new SelectList(new List<SelectListItem>());
+        }
+
         public int Id { get; set; }
 
         // Nome do Advogado
-        [Required(ErrorMessage = "O campo Nome do Advogado é obrigatório.")] 
+        [Required(ErrorMessage = "O campo Nome do Advogado é obrigatório.")]
         [Display(Name = "Nome do Advogado")]
         public string Nome { get; set; }
 
         // Senioridade
-        [Required(ErrorMessage = "A Senioridade é obrigatória.")] 
+        [Required(ErrorMessage = "A Senioridade é obrigatória.")]
         [Display(Name = "Senioridade")]
         public SenioridadeEnum Senioridade { get; set; }
 
         // Endereço - Logradouro
-        [Required(ErrorMessage = "O Logradouro é obrigatório.")] 
+        [Required(ErrorMessage = "O Logradouro é obrigatório.")]
         [Display(Name = "Logradouro")]
         public string Logradouro { get; set; }
 
@@ -45,5 +54,8 @@ namespace Web.ViewModels
 
         [Display(Name = "Complemento")]
         public string Complemento { get; set; }
+
+        public SelectList SenioridadeList { get; set; }
+        public SelectList EstadoList { get; set; }
     }
 }

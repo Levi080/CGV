@@ -1,5 +1,5 @@
-﻿
-@using Web.ViewModels;
+﻿@using Web.ViewModels;
+@using Dominio.Enums;
 @model AdvogadoViewModel
 
 @{
@@ -7,14 +7,66 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@* Bloco de Mensagem (Feedback) *@
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["MensagemSucesso"]
+    </div>
+}
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
 @using (Html.BeginForm("Incluir", "Advogado", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nome, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Senioridade, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @* Verifique a sintaxe aqui: Parênteses fechados corretamente *@
+                @Html.DropDownListFor(model => model.Senioridade, Model.SenioridadeList, "-- Selecione --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Senioridade, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Logradouro, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Logradouro, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Logradouro, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Bairro, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Bairro, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Bairro, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Estado, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @* Verifique a sintaxe aqui: Parênteses fechados corretamente *@
+                @Html.DropDownListFor(model => model.Estado, Model.EstadoList, "-- Selecione --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.Cep, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @* Adiciona a ID para que o JS possa formatar *@
                 @Html.EditorFor(model => model.Cep, new { htmlAttributes = new { @class = "form-control", @id = "cep" } })
                 @Html.ValidationMessageFor(model => model.Cep, "", new { @class = "text-danger" })
             </div>
@@ -23,15 +75,22 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Numero, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @* Usa type=number para validação inicial e ID para o JS *@
                 @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control", @id = "numero", type = "number" } })
                 @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Complemento, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Complemento, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Complemento, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Salvar" class="btn btn-default" />
+                <input type="submit" value="Salvar" class="btn btn-primary" />
             </div>
         </div>
     </div>
@@ -39,8 +98,8 @@
 
 @section Scripts {
     <script>
-        // Chama a função de carregamento do JS
+        // Chamadas obrigatórias para o JS funcionar
         AdvogadoViewModel_AoCarregarComponente();
-        AdvogadoViewModel_FormatarCampos(); // Chama a função de formatação
+        AdvogadoViewModel_FormatarCampos();
     </script>
 }

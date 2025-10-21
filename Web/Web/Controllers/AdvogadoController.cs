@@ -1,8 +1,11 @@
-﻿using System.Web.Mvc;
-using System.Linq;
+﻿using Dominio;
+using Dominio.Enums;
 using Repositorio.Interface;
+using System;
+using System.Linq;
+using System.Web.Mvc;
+using Web.Util;
 using Web.ViewModels;
-using Dominio;
 
 namespace Web.Controllers
 {
@@ -10,7 +13,6 @@ namespace Web.Controllers
     {
         private readonly IAdvogadoRepositorio _advogadoRepositorio;
 
-        // Construtor para Injeção de Dependência
         public AdvogadoController(IAdvogadoRepositorio pObjAdvogadoRepositorio)
         {
             _advogadoRepositorio = pObjAdvogadoRepositorio;
@@ -44,12 +46,10 @@ namespace Web.Controllers
 
             if (pIntId.HasValue && pIntId.Value > 0)
             {
-                // Regra de Método para Obter Dados: Obterxxx
                 var advogado = _advogadoRepositorio.ObterAdvogado(pIntId.Value);
 
                 if (advogado != null)
                 {
-                    // Mapeamento (Dominio -> ViewModel)
                     viewModel.Id = advogado.Id;
                     viewModel.Nome = advogado.Nome;
                     viewModel.Senioridade = advogado.Senioridade;
@@ -62,36 +62,45 @@ namespace Web.Controllers
                 }
             }
 
-            return View(new AdvogadoViewModel());
+            viewModel.SenioridadeList = SelectListItemConverter.CreateSelectList<SenioridadeEnum>();
+            viewModel.EstadoList = SelectListItemConverter.CreateSelectList<EstadoEnum>();
+
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Formulario(AdvogadoViewModel viewModel)
+        public ActionResult Incluir(AdvogadoViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                // Mapeamento (ViewModel -> Dominio)
-                var advogado = new Advogado
+                try
                 {
-                    Id = viewModel.Id,
-                    Nome = viewModel.Nome,
-                    Senioridade = viewModel.Senioridade,
-                    Logradouro = viewModel.Logradouro,
-                    Bairro = viewModel.Bairro,
-                    Estado = viewModel.Estado,
-                    Cep = viewModel.Cep,
-                    // Conversão de volta para INT
-                    Numero = int.TryParse(viewModel.Numero, out int num) ? num : 0,
-                    Complemento = viewModel.Complemento
-                };
+                    var advogado = new Advogado
+                    {
+                        Id = viewModel.Id,
+                        Nome = viewModel.Nome,
+                        Senioridade = viewModel.Senioridade,
+                        Logradouro = viewModel.Logradouro,
+                        Bairro = viewModel.Bairro,
+                        Estado = viewModel.Estado,
+                        Cep = viewModel.Cep,
+                        // Conversão de volta para INT
+                        Numero = int.TryParse(viewModel.Numero, out int num) ? num : 0,
+                        Complemento = viewModel.Complemento
+                    };
 
-                if (advogado.Id == 0)
-                    _advogadoRepositorio.IncluirAdvogado(advogado);              
-                else
-                    _advogadoRepositorio.AtualizarAdvogado(advogado);
+                    if (advogado.Id == 0)
+                        _advogadoRepositorio.IncluirAdvogado(advogado);
+                    else
+                        _advogadoRepositorio.AtualizarAdvogado(advogado);
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Ocorreu um erro inesperado ao salvar: " + ex.Message);
+                }
             }
 
             return View(viewModel);
