@@ -195,7 +195,8 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Advogado\Formulario.cshtml" />
+    <Content Include="Views\Advogado\_FormularioParcial.cshtml" />
+    <Content Include="Views\Advogado\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

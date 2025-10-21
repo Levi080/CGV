@@ -65,7 +65,7 @@ namespace Web.Controllers
             viewModel.SenioridadeList = SelectListItemConverter.CreateSelectList<SenioridadeEnum>();
             viewModel.EstadoList = SelectListItemConverter.CreateSelectList<EstadoEnum>();
 
-            return View(viewModel);
+            return PartialView("_FormularioParcial", viewModel);
         }
 
         [HttpPost]
@@ -103,7 +103,7 @@ namespace Web.Controllers
                 }
             }
 
-            return View(viewModel);
+            return View("_FormularioParcial", viewModel);
         }
 
         [HttpPost]

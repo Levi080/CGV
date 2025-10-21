@@ -1,0 +1,83 @@
+﻿@* Arquivo: Web/Views/Advogado/Index.cshtml *@
+
+@model List<AdvogadoViewModel>
+
+@{
+    ViewBag.Title = "Lista de Advogados";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Seu layout principal
+}
+
+<h2>Lista de Advogados</h2>
+
+<button type="button" class="btn btn-primary" id="btnNovoAdvogado">
+    Adicionar Novo Advogado
+</button>
+
+<hr />
+
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success mt-3">
+        @TempData["MensagemSucesso"]
+    </div>
+}
+
+<table class="table table-striped mt-4" id="tabelaAdvogados">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.First().Nome)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Senioridade)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Estado)</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var advogado in Model)
+        {
+            <tr>
+                <td>@advogado.Nome</td>
+                <td>@advogado.Senioridade</td>
+                <td>@advogado.Estado</td>
+                <td>
+                    @* Exemplo de botão de edição/exclusão *@
+                    <button class="btn btn-sm btn-info">Editar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="advogadoModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cadastro de Advogado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="formularioContainer">
+                    @Html.Action("Formulario", "Advogado") @* Carrega o HTML do formulário *@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @* O script principal deve ser carregado aqui! *@
+    <script>
+        $(document).ready(function() {
+            // Lógica para ABRIR o modal
+            $('#btnNovoAdvogado').click(function() {
+                $('#advogadoModal').modal('show');
+            });
+
+            // Lógica para FECHAR o modal
+            $('#advogadoModal').find('.close, .btn-secondary').click(function() {
+                $('#advogadoModal').modal('hide');
+            });
+        });
+    </script>
+}
