@@ -54,7 +54,7 @@ var AdvogadoViewModel = (function ($) {
             // Regra: Usar $post para comunicação com as rotas do controller
             $.post('/Advogado/Excluir', { pIntId: id }, function (data) {
                 // Redireciona ou recarrega
-                if (data.redirectUrl) {
+                if (data && data.redirectUrl) {
                     window.location.href = data.redirectUrl;
                 } else {
                     window.location.reload();

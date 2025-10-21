@@ -109,9 +109,18 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult Excluir(int pIntId)
         {
-            // Regra de Método para exclusão: Excluirxxxx
-            _advogadoRepositorio.ExcluirAdvogado(pIntId);
-            return RedirectToAction("Index");
+            try
+            {
+                _advogadoRepositorio.ExcluirAdvogado(pIntId);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Json(new { success = false, message = "Erro interno ao excluir: " + ex.Message });
+
+            }
+
         }
     }
 }
