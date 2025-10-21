@@ -1,0 +1,12 @@
+# Ignorar arquivos e pastas do Visual Studio
+.vs/
+*.suo
+*.user
+*.pdb
+*.obj
+
+# Arquivos de log e build (pode não ser necessário, mas é uma boa prática)
+[Dd]ebug/
+[Rr]elease/
+bin/
+obj/
