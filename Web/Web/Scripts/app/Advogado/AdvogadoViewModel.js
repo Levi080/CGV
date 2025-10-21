@@ -1,5 +1,3 @@
-// Arquivo: Web/Scripts/app/Advogado/AdvogadoViewModel.js (CÓDIGO COMPLETO E CORRIGIDO)
-
 // Usa a nomenclatura correta: Nome do arquivo (AdvogadoViewModel) + função
 var AdvogadoViewModel = (function ($) {
 
@@ -57,3 +55,25 @@ var AdvogadoViewModel = (function ($) {
             $.post('/Advogado/Excluir', { pIntId: id }, function (data) {
                 // Redireciona ou recarrega
                 if (data.redirectUrl) {
+                    window.location.href = data.redirectUrl;
+                } else {
+                    window.location.reload();
+                }
+            }).fail(function () {
+                alert("Erro ao tentar excluir o Advogado.");
+            });
+        }
+    };
+
+    // Retorna as funções públicas para acesso do HTML
+    return {
+        AdvogadoViewModel_AoCarregarComponente: AdvogadoViewModel_AoCarregarComponente,
+        AdvogadoViewModel_FormatarCampos: AdvogadoViewModel_FormatarCampos,
+        AdvogadoViewModel_AoSubmeterFormulario: AdvogadoViewModel_AoSubmeterFormulario,
+        AdvogadoViewModel_Confirmar: AdvogadoViewModel_Confirmar
+    };
+})(jQuery); // <--- FECHAMENTO DA FUNÇÃO ANÔNIMA E INVOCAÇÃO
+
+// Permite o acesso global no HTML (necessário para chamar as funções diretamente)
+var AdvogadoViewModel_AoCarregarComponente = AdvogadoViewModel.AdvogadoViewModel_AoCarregarComponente;
+var AdvogadoViewModel_Confirmar = AdvogadoViewModel.AdvogadoViewModel_Confirmar;
