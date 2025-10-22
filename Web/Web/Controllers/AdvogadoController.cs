@@ -127,11 +127,15 @@ namespace Web.Controllers
             try
             {
                 _advogadoRepositorio.ExcluirAdvogado(pIntId);
+
+                TempData["MensagemSucesso"] = $"Advogado excluído com sucesso!";
+
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 Response.StatusCode = 500;
+                TempData["MensagemErro"] = "Não foi possível excluir o advogado. Erro: " + ex.Message;
                 return Json(new { success = false, message = "Erro interno ao excluir: " + ex.Message });
 
             }

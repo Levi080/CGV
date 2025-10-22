@@ -80,7 +80,7 @@ namespace Repositorio.Implementacao
                 advogado.Bairro = pObjAdvogado.Bairro;
                 advogado.Numero = pObjAdvogado.Numero;
                 advogado.Complemento = pObjAdvogado.Complemento;
-                
+                advogado.Estado = pObjAdvogado.Estado;
             }
         }
 

@@ -57,17 +57,13 @@
 </table>
 
 <div id="advogadoModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Cadastro de Advogado</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <div id="formularioContainer">
-                    @*@Html.Action("Formulario", "Advogado")*@
                 </div>
             </div>
         </div>
@@ -112,7 +108,8 @@
             });
 
             // Lógica para FECHAR o modal
-            $modal.find('.close, .btn-secondary').click(function() {
+            $modal.on('click', '[data-dismiss="modal"]', function (e) {
+                e.preventDefault();
                 $modal.modal('hide');
             });
 
