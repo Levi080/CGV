@@ -1,5 +1,4 @@
-﻿
-using Dominio;
+﻿using Dominio.Advogado;
 using System.Collections.Generic;
 
 namespace Repositorio.Interface

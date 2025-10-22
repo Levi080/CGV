@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Advogado.cs" />
+    <Compile Include="Advogado\Advogado.cs" />
     <Compile Include="Enums\EstadoEnum.cs" />
     <Compile Include="Enums\SenioridadeEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

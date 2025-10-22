@@ -1,7 +1,7 @@
 ﻿using Dominio.Enums;
 using System;
 
-namespace Dominio
+namespace Dominio.Advogado
 {
     [Serializable]
     public class Advogado

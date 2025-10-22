@@ -1,4 +1,4 @@
-﻿using Dominio;
+﻿using Dominio.Advogado;
 using Dominio.Enums;
 using Repositorio.Interface;
 using System;
