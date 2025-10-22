@@ -1,26 +1,20 @@
-﻿@* Arquivo: Web/Views/Advogado/Index.cshtml *@
-
-@model List<AdvogadoViewModel>
+﻿@model List<AdvogadoViewModel>
 
 @{
     ViewBag.Title = "Lista de Advogados";
-    Layout = "~/Views/Shared/_Layout.cshtml"; // Seu layout principal
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Lista de Advogados</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
 
-<button type="button" class="btn btn-primary" id="btnNovoAdvogado">
-    Adicionar Novo Advogado
-</button>
+    <h3>Lista de Advogados</h3>
+
+    <button type="button" class="btn btn-primary" id="btnNovoAdvogado">
+        Adicionar Novo Advogado
+    </button>
+</div>
 
 <hr />
-
-@if (TempData["MensagemSucesso"] != null)
-{
-    <div class="alert alert-success mt-3">
-        @TempData["MensagemSucesso"]
-    </div>
-}
 
 <table class="table table-striped mt-4" id="tabelaAdvogados">
     <thead>

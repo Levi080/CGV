@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Advogados App</title>
 
-    @* 1. Referências CSS (Bootstrap) *@
-    @* Assumindo que você tem o Bootstrap na sua pasta Content/ *@
+    @* Referências CSS (Bootstrap) *@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     @Styles.Render("~/Content/css")
@@ -16,49 +15,28 @@
 
 </head>
 <body>
-    @* Barra de Navegação Simples *@
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                @Html.ActionLink("Advogados App", "Index", "Advogado", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Advogados", "Index", "Advogado")</li>
-                    @* Adicionar outros links aqui, se necessário *@
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    @* Corpo da Página (Onde o conteúdo das Views é inserido) *@
-    <div class="container body-content">
+    <div class="container body-content pt-5">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Chalfin, Goldberg, Vainboim & Fichtner Advogados Associados</p>
+        <footer class="text-center mt-5 py-3 bg-light">
+            <p class="mb-0">&copy; @DateTime.Now.Year - Chalfin, Goldberg, Vainboim & Fichtner Advogados Associados</p>
         </footer>
     </div>
 
-    @* 2. Referências de Scripts (rodapé) *@
-
-    @* jQuery é o primeiro, essencial para todo o resto *@
-    <script src="~/Scripts/jquery-3.7.0.min.js"></script> @* Use a versão que tiver no seu projeto *@
+    @* Referências de Scripts (rodapé) *@
+    <script src="~/Scripts/jquery-3.7.0.min.js"></script>
 
     @* Bootstrap JS *@
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/app/Advogado/AdvogadoViewModel.js"></script>
 
     @* jQuery Mask Plugin: Essencial para as máscaras no Formulario.cshtml *@
-    @* Se este arquivo não existir, você deve adicioná-lo à pasta Scripts/ *@
     <script src="~/Scripts/jquery.mask.min.js"></script>
 
     @* Scripts de Validação (necessário para a validação do lado do cliente) *@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-
-    @* Renderiza a seção de scripts específica da View (Seção "Scripts" definida no Formulario.cshtml) *@
     @RenderSection("scripts", required: false)
 </body>
 </html>

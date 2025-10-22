@@ -30,7 +30,6 @@ public abstract class MySqlRepositorio
     public void AbrirConexao() { }
     public void FecharConexao() { }
 }
-// --- FIM CLASES MOCKADAS ---
 #endregion
 
 namespace Repositorio.Implementacao
