@@ -39,11 +39,16 @@
                 <td>@advogado.Senioridade</td>
                 <td>@advogado.Estado</td>
                 <td>
-                    <button class="btn btn-sm btn-info">Editar</button>
+                    <button type="button"
+                            class="btn btn-sm btn-primary btn-editar"
+                            data-id="@advogado.Id">
+                        <i class="fas fa-edit"></i>
+                    </button>
                     <button type="button"
                             class="btn btn-sm btn-danger"
+                            data-id="@advogado.Id"
                             onclick="AdvogadoViewModel_Confirmar(@advogado.Id)">
-                        Excluir
+                        <i class="fas fa-trash-alt"></i>
                     </button>
                 </td>
             </tr>
@@ -62,7 +67,7 @@
             </div>
             <div class="modal-body">
                 <div id="formularioContainer">
-                    @Html.Action("Formulario", "Advogado") 
+                    @*@Html.Action("Formulario", "Advogado")*@
                 </div>
             </div>
         </div>
@@ -72,16 +77,53 @@
 @section Scripts {
     <script>
         $(document).ready(function() {
-            // Lógica para ABRIR o modal
+            var formUrl = '@Url.Action("Formulario", "Advogado")';
+            var $modal = $('#advogadoModal');
+            var $formContainer = $('#formularioContainer');
+
+            //Lógica para ABRIR o modal para (NOVO CADASTRO)
             $('#btnNovoAdvogado').click(function (e) {
                 e.preventDefault();
-                $('#advogadoModal').modal('show');
+
+                $formContainer.html("Carregando formulário de cadastro...");
+                $modal.modal('show');
+
+                // Carrega o formulário vazio via AJAX (sem ID)
+                $formContainer.load(formUrl, function(responseText, statusTxt, xhr) {
+                    if (statusTxt != "success") {
+                        $formContainer.html("Erro ao carregar o formulário. Tente recarregar a página.");
+                    }
+                });
+            });
+
+            // Lógica para ABRIR o modal para (EDIÇÃO)
+            $('#tabelaAdvogados').on('click', '.btn-editar', function() {
+                var advogadoId = $(this).data('id');
+
+                $formContainer.html("Carregando formulário de edição...");
+                $modal.modal('show');
+
+                // Carrega o formulário via AJAX, passando o ID na query string
+                $formContainer.load(formUrl + '?pIntId=' + advogadoId, function(responseText, statusTxt, xhr) {
+                    if (statusTxt != "success") {
+                        $formContainer.html("Erro ao carregar o formulário. Tente recarregar a página.");
+                    }
+                });
             });
 
             // Lógica para FECHAR o modal
-            $('#advogadoModal').find('.close, .btn-secondary').click(function() {
-                $('#advogadoModal').modal('hide');
+            $modal.find('.close, .btn-secondary').click(function() {
+                $modal.modal('hide');
             });
+
+            //Lógica para definir o temporizador das nofiticações (TempData)
+            var $alert = $('.alert-success');
+            if ($alert.length) {
+                $alert.delay(3000) 
+                    .fadeOut(500, function () { 
+                        $(this).remove(); 
+                    });
+            }
         });
     </script>
 }

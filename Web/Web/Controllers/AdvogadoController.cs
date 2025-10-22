@@ -70,7 +70,7 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Incluir(AdvogadoViewModel viewModel)
+        public ActionResult Salvar(AdvogadoViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -90,10 +90,21 @@ namespace Web.Controllers
                         Complemento = viewModel.Complemento
                     };
 
+                    string acao;
                     if (advogado.Id == 0)
+                    {
+                        // Lógica de CRIAÇÃO
                         _advogadoRepositorio.IncluirAdvogado(advogado);
+                        acao = "incluído";
+                    }
                     else
+                    {
+                        // Lógica de EDIÇÃO (Upsert)
                         _advogadoRepositorio.AtualizarAdvogado(advogado);
+                        acao = "atualizado";
+                    }
+
+                    TempData["MensagemSucesso"] = $"Advogado '{advogado.Nome}' {acao} com sucesso!";
 
                     return RedirectToAction("Index");
                 }
@@ -102,8 +113,12 @@ namespace Web.Controllers
                     ModelState.AddModelError("", "Ocorreu um erro inesperado ao salvar: " + ex.Message);
                 }
             }
+            Response.StatusCode = 400;
 
-            return View("_FormularioParcial", viewModel);
+            viewModel.SenioridadeList = SelectListItemConverter.CreateSelectList<SenioridadeEnum>();
+            viewModel.EstadoList = SelectListItemConverter.CreateSelectList<EstadoEnum>();
+
+            return PartialView("_FormularioParcial", viewModel);
         }
 
         [HttpPost]
